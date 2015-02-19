@@ -1,20 +1,32 @@
 ## My first attempt at this
-## functions do
 
-## Write a short comment describing this function
+## The first function, makeCacheMatrix creates a 
+## special "vector", which is really a list containing a 
+##function to
+## set the value of the Matrix
+## get the value of the Matrix
+## set the value of the inverse
+## get the value of the inverse
 
 makeCacheMatrix <- function(x = matrix()) {
-  m <- NULL
-  set <- function(y) {
+  invm <- NULL
+  setmatrix <- function(y) {
     x <<- y
-    m <<- NULL
+    invm <<- NULL
   }
-  get <- function() x
-  setmatrix <- function(solve) m <<- solve
-  getmatrix <- function() m
-  list(set = set, get = get,
-       setmatrix = setmatrix,
-       getmatrix = getmatrix)
+  
+  getmatrix <- function() x
+  setinvmatrix <- function(solve) {
+    invm <<- solve
+  }
+  
+  getinvmatrix <- function() {
+    invm
+  }
+  
+  list(setmatrix = setmatrix, getmatrix = getmatrix,
+       setinvmatrix = setinvmatrix,
+       getinvmatrix = getinvmatrix)
 }
 
 
@@ -22,13 +34,13 @@ makeCacheMatrix <- function(x = matrix()) {
 
 cacheSolve <- function(x, ...) {
         ## Return a matrix that is the inverse of 'x'
-  m<-x$getmatrix()
-  if(!is.null(m)){
+  invm<-x$getinvmatrix()
+  if(!is.null(invm)){
     message("getting cached data")
-    return(m)
+    return(invm)
   }
-  data<-x$get()
-  m<-solve(data, ...)
-  x$setmatrix(m)
-  m
+  data<-x$getmatrix()
+  invm<-solve(data, ...)
+  x$setinvmatrix(invm)
+  invm
 }
